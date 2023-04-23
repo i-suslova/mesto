@@ -1,152 +1,165 @@
-import Card from "./Card.js";
+import Card from "../scripts/Card.js";
 import FormValidator from "./FormValidator.js";
-import Section from "./Section.js";
-import PopupWithImage from "./PopupWithImage.js";
-import PopupWithForm from "./PopupWithForm.js";
-import UserInfo from "./UserInfo.js";
+import { config } from "./constants.js";
 
-import {
-  initialCards,
-  config,
-  profileEditButton,
-  profileAddButton,
-  popupProfile,
-  profileForm,
-  nameInput,
-  jobInput,
-  profileTitle,
-  profileSubtitle,
-  popupPicture,
-  formPicture,
-  pictureInput,
-  linkInput,
-} from "../utils/constants.js";
+// ссылки на картинки
+const initialCards = [
+  {
+    name: "Архыз",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
+  },
+  {
+    name: "Челябинская область",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
+  },
+  {
+    name: "Иваново",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
+  },
+  {
+    name: "Камчатка",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
+  },
+  {
+    name: "Холмогорский район",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
+  },
+  {
+    name: "Байкал",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
+  },
+];
 
-//создаем экземпляр класса PopupWithImage и добавляет к нему слушатель событий
-const popupWithImage = new PopupWithImage(".popup_image");
-popupWithImage.setEventListeners();
 
-//создаем экземпляр класса UserInfo, который отвечает за отображение информации о пользователе
-const userInfo = new UserInfo({
-  nameSelector: ".profile__title",
-  jobSelector: ".profile__subtitle",
+//кнопки
+const profileEditButton = document.querySelector(".profile__button-edit");
+const profileAddButton = document.querySelector(".profile__button-add");
+const popupList = document.querySelectorAll(".popup");
+
+//pop-up-profile
+const popupProfile = document.querySelector(".popup_profile");
+const profileForm = document.forms["form-profile"];
+const nameInput = document.querySelector("#input-name");
+const jobInput = document.querySelector("#input-job");
+const profileTitle = document.querySelector(".profile__title");
+const profileSubtitle = document.querySelector(".profile__subtitle");
+
+//pop-up-формы для создания карточек
+const popupPicture = document.querySelector(".popup_picture");
+const formPicture = document.forms["form-picture"];
+const pictureInput = document.querySelector("#input-picture");
+const linkInput = document.querySelector("#input-link");
+
+//template
+const elements = document.querySelector(".elements");
+
+//pop-up-с увеличенной карточкой-
+const popupImage = document.querySelector(".popup_image");
+const popupImagePhoto = popupImage.querySelector(".popup__image-photo");
+const popupImageText = popupImage.querySelector(".popup__image-text");
+
+const profileFormValidator = new FormValidator(config, profileForm);
+const pictureFormValidator = new FormValidator(config, formPicture);
+
+//открытие-закрытие попапов
+const openPopup = (element) => {
+  element.classList.add("popup_opened");
+  document.addEventListener("keydown", closeByEscape);
+};
+
+const closePopup = (element) => {
+  element.classList.remove("popup_opened");
+  document.removeEventListener("keydown", closeByEscape);
+};
+
+//Закрытие попапа нажатием на Esc
+const closeByEscape = (evt) => {
+  if (evt.key === "Escape") {
+    //находим открытый попап и закрываем его
+    popupList.forEach((popup) => {
+      if (popup.classList.contains("popup_opened")) {
+        closePopup(popup);
+      }
+    });
+  }
+};
+
+//объединяем обработчики оверлея и крестиков, их закрытие
+popupList.forEach((popup) => {
+  popup.addEventListener("mousedown", (evt) => {
+    //методом contains проверяем наличие CSS класса и при наличии выполняем функцию closePopup
+    if (evt.target.classList.contains("popup_opened")) {
+      closePopup(popup);
+    }
+    if (evt.target.classList.contains("popup__button-close")) {
+      closePopup(popup);
+    }
+  });
 });
 
-//открываем экземпляр PopupWithImage, при клике на карточку
-function handleCardClick(data) {
-  popupWithImage.open(data);
+function handleCardClick(name, link) {
+  openPopup(popupImage);
+  popupImagePhoto.src = link;
+  popupImagePhoto.alt = name;
+  popupImageText.textContent = name;
 }
 
-//генерируем коарту  и добавляем в DOM
-function renderCard(data) {
-  const cardElement = getCard(data, "#template", handleCardClick);
-  section.appendItem(cardElement);
-}
-
-//создаем экземпляр класса Section, который отображает список карточек
-const section = new Section(
-  {
-    items: initialCards,
-    renderer: renderCard,
-  },
-  ".elements"
-);
-section.renderItems();
-
-//создаем экземпляр карты, который принимает данные и шаблон
-function getCard(data, templateSelector, handleCardClick) {
-  const card = new Card(data, templateSelector, () => {
-    handleCardClick(data);
-  });
+//создание новой карточки
+function getCard(data, templateSelector) {
+  const card = new Card(data, templateSelector, handleCardClick);
   const cardElement = card.generateCard();
 
   return cardElement;
 }
 
-function handlePictureFormSubmit(evt, data) {
-  evt.preventDefault();
-  const newCard = getCard(data, "#template", handleCardClick);
-  section.prependItem(newCard);
-  popupAddCard.close();
-}
-
-// Эта функция срабатывает, когда пользователь отправляет
-// форму для редактирования информации о пользователе.
-// Он обновляет имя пользователя и информацию о работе и закрывает форму.
-// обработчиком события отправки формы,
-// которая отвечает за сохранение информации о пользователе,
-//  введенной в форме, и закрытие модального окна с формой.
-
-//  Эта функция получает два аргумента: evt (событие отправки формы)
-//  и data (данные, введенные в форму),
-//  и вызывается при отправке формы.
-function handleProfileFormSubmit(evt, data) {
-  evt.preventDefault();
-
-  userInfo.setUserInfo({
-    name: data.nameInput,
-    info: data.jobInput,
-  });
-  popupEditProfile.close();
-}
-
-// Этот код добавляет прослушиватель событий в форму профиля,
-// который запускает функцию handleProfileFormSubmit,
-// когда пользователь отправляет форму.
-
-// Функция addEventListener добавляет обработчик события на элемент DOM
-//  на странице. В данном случае, функция добавляет обработчик на отправку формы (submit),
-//  чтобы вызвать соответствующие функции обработки при отправке формы.
-profileForm.addEventListener("submit", (evt) =>
-  handleProfileFormSubmit(evt, {
-    nameInput: nameInput.value,
-    jobInput: jobInput.value,
-  })
-);
-
-formPicture.addEventListener("submit", (evt) =>
-  handlePictureFormSubmit(evt, {
-    name: pictureInput.value,
-    link: linkInput.value,
-  })
-);
-
-const popupEditProfile = new PopupWithForm(".popup_profile", {
-  handleSubmitForm: handleProfileFormSubmit,
+initialCards.forEach((data) => {
+  const cardElement = getCard(data, "#template");
+  elements.append(cardElement);
 });
 
-popupEditProfile.setEventListeners();
+function createCard(evt, data) {
+  evt.preventDefault();
+  //  функция createCard вызывает функцию getCard,
+  //для создания новой карточки, используя переданные данные
+  const cardElement = getCard(data, "#template");
+  elements.prepend(cardElement);
 
-const popupAddCard = new PopupWithForm(".popup_picture", {
-  handleSubmitForm: handlePictureFormSubmit,
-});
+  closePopup(popupPicture);
+  formPicture.reset();
+}
 
-popupAddCard.setEventListeners();
-
-
+// Открываем попапы с формами
 profileEditButton.addEventListener("click", () => {
   profileFormValidator.resetValidation(); // Сбрасываем ошибки и состояние кнопки
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
-  //Они добавляют прослушиватели событий в профиль и формы изображений
-  //для запуска handleProfileFormSubmitи handlePictureFormSubmitфункций при отправке форм.
-  popupEditProfile.open();
+  openPopup(popupProfile);
 });
 
-// Это создает экземпляр класса PopupWithForm,
-// который отвечает за отображение и отправку формы добавления изображения.
-// popupAddCardиспользуется для открытия и закрытия формы добавления изображения.
-// profileEditButtonи
 profileAddButton.addEventListener("click", () => {
   pictureFormValidator.resetValidation(); // Сбрасываем ошибки и состояние кнопки
-  popupAddCard.open();
+  openPopup(popupPicture);
 });
 
-// Создание экземпляра класса FormValidator для валидации формы профиля
-const profileFormValidator = new FormValidator(config, popupProfile);
-profileFormValidator.enableValidation();
+// Обработчик «отправки» формы profile
+function handleProfileFormSubmit() {
+  profileTitle.textContent = nameInput.value;
+  profileSubtitle.textContent = jobInput.value;
 
-// Создание экземпляра класса FormValidator для валидации формы добавления фотографии
-const pictureFormValidator = new FormValidator(config, popupPicture);
-pictureFormValidator.enableValidation();
+  closePopup(popupProfile);
+}
 
+// Обработчик «отправки» формы для создания карточек
+function handlePictureFormSubmit(evt) {
+  const data = {
+    name: pictureInput.value,
+    link: linkInput.value,
+  };
+
+  createCard(evt, data);
+}
+
+profileForm.addEventListener("submit", handleProfileFormSubmit);
+formPicture.addEventListener("submit", handlePictureFormSubmit);
+
+console.log("123");
