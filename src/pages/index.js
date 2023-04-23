@@ -20,7 +20,7 @@ import {
   formPicture,
   pictureInput,
   linkInput,
-} from "../utils/constants.js";
+} from "../../utils/constants.js";
 
 //создаем экземпляр класса PopupWithImage и добавляет к нему слушатель событий
 const popupWithImage = new PopupWithImage(".popup_image");
