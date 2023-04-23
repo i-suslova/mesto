@@ -37,7 +37,9 @@ export const config = {
 };
 
 //кнопки
-export const profileEditButton = document.querySelector(".profile__button-edit");
+export const profileEditButton = document.querySelector(
+  ".profile__button-edit"
+);
 export const profileAddButton = document.querySelector(".profile__button-add");
 export const popupList = document.querySelectorAll(".popup");
 
@@ -62,4 +64,3 @@ export const elements = document.querySelector(".elements");
 export const popupImage = document.querySelector(".popup_image");
 export const popupImagePhoto = popupImage.querySelector(".popup__image-photo");
 export const popupImageText = popupImage.querySelector(".popup__image-text");
-
