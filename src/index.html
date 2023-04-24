@@ -4,19 +4,21 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Mesto</title>
-    <link rel="stylesheet" href="./pages/index.css" />
   </head>
+
   <body class="body">
     <div class="page">
       <header class="header">
-        <img src="./images/logo.svg" alt="логотип сайта место" class="header__logo" />
+        <img src='<%=require("./images/logo.svg")%>' alt="логотип сайта место" class="header__logo" />
       </header>
 
       <main class="content">
         <div class="profile">
           <div class="profile__list">
-            <img class="profile__avatar" src="./images/ЖакИвКусто.png" alt="портрет Жак-Ив Кусто" />
+            <img class="profile__avatar" src='<%=require("./images/ЖакИвКусто.png")%>' alt="портрет Жак-Ив Кусто" />
+
             <div class="profile__info">
               <h1 class="profile__title">Жак-Ив Кусто</h1>
               <p class="profile__subtitle">Исследователь океана</p>
@@ -126,7 +128,7 @@
             aria-label="закрыть"
           ></button>
           <img
-            src="./images/Эльбрус.png"
+            src='<%=require("./images/Эльбрус.png")%>'
             alt="на дальнем плане Эльбрус"
             class="popup__image-photo"
           />
@@ -144,6 +146,5 @@
         </article>
       </template>
     </div>
-    <script type="module" src="../src/pages/index.js"></script>
   </body>
 </html>

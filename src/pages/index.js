@@ -1,3 +1,5 @@
+import "./index.css";
+
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
@@ -70,16 +72,6 @@ function handlePictureFormSubmit(evt, data) {
   popupAddCard.close();
 }
 
-// Эта функция срабатывает, когда пользователь отправляет
-// форму для редактирования информации о пользователе.
-// Он обновляет имя пользователя и информацию о работе и закрывает форму.
-// обработчиком события отправки формы,
-// которая отвечает за сохранение информации о пользователе,
-//  введенной в форме, и закрытие модального окна с формой.
-
-//  Эта функция получает два аргумента: evt (событие отправки формы)
-//  и data (данные, введенные в форму),
-//  и вызывается при отправке формы.
 function handleProfileFormSubmit(evt, data) {
   evt.preventDefault();
 
@@ -90,13 +82,6 @@ function handleProfileFormSubmit(evt, data) {
   popupEditProfile.close();
 }
 
-// Этот код добавляет прослушиватель событий в форму профиля,
-// который запускает функцию handleProfileFormSubmit,
-// когда пользователь отправляет форму.
-
-// Функция addEventListener добавляет обработчик события на элемент DOM
-//  на странице. В данном случае, функция добавляет обработчик на отправку формы (submit),
-//  чтобы вызвать соответствующие функции обработки при отправке формы.
 profileForm.addEventListener("submit", (evt) =>
   handleProfileFormSubmit(evt, {
     nameInput: nameInput.value,
@@ -123,7 +108,6 @@ const popupAddCard = new PopupWithForm(".popup_picture", {
 
 popupAddCard.setEventListeners();
 
-
 profileEditButton.addEventListener("click", () => {
   profileFormValidator.resetValidation(); // Сбрасываем ошибки и состояние кнопки
   nameInput.value = profileTitle.textContent;
@@ -133,10 +117,6 @@ profileEditButton.addEventListener("click", () => {
   popupEditProfile.open();
 });
 
-// Это создает экземпляр класса PopupWithForm,
-// который отвечает за отображение и отправку формы добавления изображения.
-// popupAddCardиспользуется для открытия и закрытия формы добавления изображения.
-// profileEditButtonи
 profileAddButton.addEventListener("click", () => {
   pictureFormValidator.resetValidation(); // Сбрасываем ошибки и состояние кнопки
   popupAddCard.open();
@@ -149,4 +129,3 @@ profileFormValidator.enableValidation();
 // Создание экземпляра класса FormValidator для валидации формы добавления фотографии
 const pictureFormValidator = new FormValidator(config, popupPicture);
 pictureFormValidator.enableValidation();
-
