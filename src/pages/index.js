@@ -65,48 +65,75 @@ function getCard(data, templateSelector, handleCardClick) {
   return cardElement;
 }
 
-function handlePictureFormSubmit(evt, data) {
-  evt.preventDefault();
-  const newCard = getCard(data, "#template", handleCardClick);
-  section.prependItem(newCard);
-  popupAddCard.close();
-}
+// function handlePictureFormSubmit(evt, data) {
+//   evt.preventDefault();
+//   const newCard = getCard(data, "#template", handleCardClick);
+//   section.prependItem(newCard);
+//   popupAddCard.close();
+// }
 
-function handleProfileFormSubmit(evt, data) {
-  evt.preventDefault();
+// function handleProfileFormSubmit(evt, data) {
+//   evt.preventDefault();
 
-  userInfo.setUserInfo({
-    name: data.nameInput,
-    info: data.jobInput,
-  });
-  popupEditProfile.close();
-}
+//   userInfo.setUserInfo({
+//     name: data.nameInput,
+//     info: data.jobInput,
+//   });
+//   popupEditProfile.close();
+// }
 
-profileForm.addEventListener("submit", (evt) =>
-  handleProfileFormSubmit(evt, {
-    nameInput: nameInput.value,
-    jobInput: jobInput.value,
-  })
-);
+// profileForm.addEventListener("submit", (evt) =>
+//   handleProfileFormSubmit(evt, {
+//     nameInput: nameInput.value,
+//     jobInput: jobInput.value,
+//   })
+// );
 
-formPicture.addEventListener("submit", (evt) =>
-  handlePictureFormSubmit(evt, {
-    name: pictureInput.value,
-    link: linkInput.value,
-  })
-);
+// formPicture.addEventListener("submit", (evt) =>
+//   handlePictureFormSubmit(evt, {
+//     name: pictureInput.value,
+//     link: linkInput.value,
+//   })
+// );
 
-const popupEditProfile = new PopupWithForm(".popup_profile", {
-  handleSubmitForm: handleProfileFormSubmit,
-});
+// const popupEditProfile = new PopupWithForm(".popup_profile", {
+//   handleSubmitForm: handleProfileFormSubmit,
+// });
 
-popupEditProfile.setEventListeners();
+// popupEditProfile.setEventListeners();
+
+// const popupAddCard = new PopupWithForm(".popup_picture", {
+//   handleSubmitForm: handlePictureFormSubmit,
+// });
+
+// popupAddCard.setEventListeners();
+///////////////////////
 
 const popupAddCard = new PopupWithForm(".popup_picture", {
-  handleSubmitForm: handlePictureFormSubmit,
-});
+  handleSubmitForm: (data) => {
+    const newCard = getCard(
+      {
+        name: data.name,
+        link: data.url,
+      },
+      "#template",
+      handleCardClick
+    );
 
+    section.prependItem(newCard);
+  },
+});
 popupAddCard.setEventListeners();
+
+const popupEditProfile = new PopupWithForm(".popup_profile", {
+  handleSubmitForm: (data) => {
+    userInfo.setUserInfo({
+      name: data.name,
+      info: data.job,
+    });
+  },
+});
+popupEditProfile.setEventListeners();
 
 profileEditButton.addEventListener("click", () => {
   profileFormValidator.resetValidation(); // Сбрасываем ошибки и состояние кнопки
