@@ -1,9 +1,11 @@
-import Card from "./Card.js";
-import FormValidator from "./FormValidator.js";
-import Section from "./Section.js";
-import PopupWithImage from "./PopupWithImage.js";
-import PopupWithForm from "./PopupWithForm.js";
-import UserInfo from "./UserInfo.js";
+import "./index.css";
+
+import Card from "../components/Card.js";
+import FormValidator from "../components/FormValidator.js";
+import Section from "../components/Section.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import UserInfo from "../components/UserInfo.js";
 
 import {
   initialCards,
@@ -61,6 +63,7 @@ function getCard(data, templateSelector, handleCardClick) {
   return cardElement;
 }
 
+<<<<<<< HEAD:scripts/index.js
 const popupAddCard = new PopupWithForm(".popup_picture", {
   handleSubmitForm: (data) => {
     const newCard = getCard(
@@ -97,7 +100,34 @@ popupEditProfile.setEventListeners();
 
 // popupDeleteCard .setEventListeners();
 
+=======
 
+const popupAddCard = new PopupWithForm(".popup_picture", {
+  handleSubmitForm: (data) => {
+    const newCard = getCard(
+      {
+        name: data.name,
+        link: data.url,
+      },
+      "#template",
+      handleCardClick
+    );
+
+    section.prependItem(newCard);
+  },
+});
+popupAddCard.setEventListeners();
+>>>>>>> 2ed272f358c27e82d0960d6731584517b5db9ded:src/pages/index.js
+
+const popupEditProfile = new PopupWithForm(".popup_profile", {
+  handleSubmitForm: (data) => {
+    userInfo.setUserInfo({
+      name: data.name,
+      info: data.job,
+    });
+  },
+});
+popupEditProfile.setEventListeners();
 
 profileEditButton.addEventListener("click", () => {
   profileFormValidator.resetValidation(); // Сбрасываем ошибки и состояние кнопки
@@ -120,5 +150,8 @@ profileFormValidator.enableValidation();
 // Создание экземпляра класса FormValidator для валидации формы добавления фотографии
 const pictureFormValidator = new FormValidator(config, popupPicture);
 pictureFormValidator.enableValidation();
+<<<<<<< HEAD:scripts/index.js
 
 
+=======
+>>>>>>> 2ed272f358c27e82d0960d6731584517b5db9ded:src/pages/index.js

@@ -17,6 +17,8 @@
 - CSS
 - JavaScript
 - оформление по методологии БЭМ(Nested)
+- Webpack
+- ООП
 
 ---
 
