@@ -63,7 +63,6 @@ function getCard(data, templateSelector, handleCardClick) {
   return cardElement;
 }
 
-<<<<<<< HEAD:scripts/index.js
 const popupAddCard = new PopupWithForm(".popup_picture", {
   handleSubmitForm: (data) => {
     const newCard = getCard(
@@ -100,34 +99,32 @@ popupEditProfile.setEventListeners();
 
 // popupDeleteCard .setEventListeners();
 
-=======
 
-const popupAddCard = new PopupWithForm(".popup_picture", {
-  handleSubmitForm: (data) => {
-    const newCard = getCard(
-      {
-        name: data.name,
-        link: data.url,
-      },
-      "#template",
-      handleCardClick
-    );
+// const popupAddCard = new PopupWithForm(".popup_picture", {
+//   handleSubmitForm: (data) => {
+//     const newCard = getCard(
+//       {
+//         name: data.name,
+//         link: data.url,
+//       },
+//       "#template",
+//       handleCardClick
+//     );
 
-    section.prependItem(newCard);
-  },
-});
-popupAddCard.setEventListeners();
->>>>>>> 2ed272f358c27e82d0960d6731584517b5db9ded:src/pages/index.js
+//     section.prependItem(newCard);
+//   },
+// });
+// popupAddCard.setEventListeners();
 
-const popupEditProfile = new PopupWithForm(".popup_profile", {
-  handleSubmitForm: (data) => {
-    userInfo.setUserInfo({
-      name: data.name,
-      info: data.job,
-    });
-  },
-});
-popupEditProfile.setEventListeners();
+// const popupEditProfile = new PopupWithForm(".popup_profile", {
+//   handleSubmitForm: (data) => {
+//     userInfo.setUserInfo({
+//       name: data.name,
+//       info: data.job,
+//     });
+//   },
+// });
+// popupEditProfile.setEventListeners();
 
 profileEditButton.addEventListener("click", () => {
   profileFormValidator.resetValidation(); // Сбрасываем ошибки и состояние кнопки
@@ -150,8 +147,5 @@ profileFormValidator.enableValidation();
 // Создание экземпляра класса FormValidator для валидации формы добавления фотографии
 const pictureFormValidator = new FormValidator(config, popupPicture);
 pictureFormValidator.enableValidation();
-<<<<<<< HEAD:scripts/index.js
 
 
-=======
->>>>>>> 2ed272f358c27e82d0960d6731584517b5db9ded:src/pages/index.js
