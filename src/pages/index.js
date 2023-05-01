@@ -39,7 +39,7 @@ function handleCardClick(data) {
   popupWithImage.open(data);
 }
 
-//генерируем коарту  и добавляем в DOM
+//генерируем карту и добавляем в DOM
 function renderCard(data) {
   const cardElement = getCard(data, "#template", handleCardClick);
   section.appendItem(cardElement);
@@ -55,16 +55,52 @@ const section = new Section(
 );
 section.renderItems();
 
-//создаем экземпляр карты, который принимает данные и шаблон
 function getCard(data, templateSelector, handleCardClick) {
-  const card = new Card(data, templateSelector, () => {
+  const card = new Card(data, templateSelector, (data) => {
     handleCardClick(data);
   });
   const cardElement = card.generateCard();
-
   return cardElement;
 }
 
+<<<<<<< HEAD:scripts/index.js
+const popupAddCard = new PopupWithForm(".popup_picture", {
+  handleSubmitForm: (data) => {
+    const newCard = getCard(
+      {
+        name: data.name,
+        link: data.url,
+      },
+      "#template",
+      handleCardClick
+    );
+
+    section.prependItem(newCard);
+  },
+});
+popupAddCard.setEventListeners();
+
+
+
+const popupEditProfile = new PopupWithForm(".popup_profile", {
+  handleSubmitForm: (data) => {
+    userInfo.setUserInfo({
+      name: data.name,
+      info: data.job,
+    });
+  },
+});
+popupEditProfile.setEventListeners();
+
+ // Создаем попап с подтверждением удаления карточки
+// const popupDeleteCard = new PopupWithForm('.popup_picture-delete', {
+
+//   handleSubmitForm: handleCardDelete
+// });
+
+// popupDeleteCard .setEventListeners();
+
+=======
 
 const popupAddCard = new PopupWithForm(".popup_picture", {
   handleSubmitForm: (data) => {
@@ -81,6 +117,7 @@ const popupAddCard = new PopupWithForm(".popup_picture", {
   },
 });
 popupAddCard.setEventListeners();
+>>>>>>> 2ed272f358c27e82d0960d6731584517b5db9ded:src/pages/index.js
 
 const popupEditProfile = new PopupWithForm(".popup_profile", {
   handleSubmitForm: (data) => {
@@ -113,3 +150,8 @@ profileFormValidator.enableValidation();
 // Создание экземпляра класса FormValidator для валидации формы добавления фотографии
 const pictureFormValidator = new FormValidator(config, popupPicture);
 pictureFormValidator.enableValidation();
+<<<<<<< HEAD:scripts/index.js
+
+
+=======
+>>>>>>> 2ed272f358c27e82d0960d6731584517b5db9ded:src/pages/index.js

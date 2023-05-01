@@ -31,8 +31,9 @@ export default class Popup {
         this.close();
       }
       if (evt.target === this._closeButton) {
-        this.close();
+        this.close(evt.target === this._closeButton);
       }
     });
   }
 }
+
