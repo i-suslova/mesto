@@ -37,7 +37,9 @@ const returnPromise = async () => {
     userId = userData._id;
     section.renderItems(cardData, userId);
   } catch (error) {
-    console.error(
+    console.error(error);
+  }
+};
 returnPromise();
 
 //экземпляр класса UserInfo, который отвечает за отображение информации о пользователе
