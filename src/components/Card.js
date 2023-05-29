@@ -4,14 +4,16 @@ export default class Card {
     templateSelector,
     handleCardClick,
     handleDeleteCard,
-    handleLike,
+    handleAddLikeCard,
+    handleRemoveLikeCard,
     userId
   ) {
     this._data = data;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     this._handleDeleteCard = handleDeleteCard;
-    this._handleLike = handleLike;
+    this._handleAddLikeCard = handleAddLikeCard;
+    this._handleRemoveLikeCard = handleRemoveLikeCard;
 
     this._name = data.name;
     this._alt = data.name;
@@ -47,9 +49,12 @@ export default class Card {
     this._image.alt = this._name;
     this._title.textContent = this._name;
 
+    this._likes = this._data.likes;
+    this._likesCount.textContent = this._likes.length;
+
     this._setEventListeners();
     this._handleButtonDelete();
-    this.updateLikesCount();
+    this._updateLikesCount();
 
     return this._element;
   }
@@ -67,13 +72,28 @@ export default class Card {
 
     // слушатель лайка
     this._buttonLike.addEventListener("click", () => {
-      this._handleLike(this._cardId, this, this._likes);
+      if (this._buttonLike.classList.contains("element__button-like_activ")) {
+        this._handleRemoveLikeCard(this._cardId, this);
+      } else {
+        this._handleAddLikeCard(this._cardId, this);
+      }
     });
   }
 
+  // проверяем, лайкнута ли карточка пользователем
+  isLikedByUser() {
+    return this._likes.some((like) => like._id === this._userId);
+  }
+
+  // обновление данных о лайках на основе полученных данных с сервера
+  _updateLikes(data) {
+    this._likes = data.likes;
+    this._updateLikesCount();
+  }
+
   // отображение количества лайков и замена цвета лайка
-  updateLikesCount() {
-    this._likesCount.textContent = this._likes.length.toString();
+  _updateLikesCount() {
+    this._likesCount.textContent = this._likes.length;
 
     if (this.isLikedByUser()) {
       this._buttonLike.classList.add("element__button-like_activ");
@@ -81,18 +101,6 @@ export default class Card {
       this._buttonLike.classList.remove("element__button-like_activ");
     }
   }
-
-  // обновление данных о лайках на основе полученных данных с сервера
-  updateLikes(likes) {
-    this._likes = likes;
-    this.updateLikesCount();
-  }
-
-  // проверяем, лайкнута ли карточка пользователем
-  isLikedByUser() {
-    return this._likes.some((like) => like === this._userId);
-  }
-
   // удаляем DOM-элемент карточки
   deleteCard() {
     this._element.remove();
