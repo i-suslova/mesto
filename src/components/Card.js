@@ -54,7 +54,7 @@ export default class Card {
 
     this._setEventListeners();
     this._handleButtonDelete();
-    this._updateLikesCount();
+    this.updateLikesCount();
 
     return this._element;
   }
@@ -86,7 +86,7 @@ export default class Card {
   }
 
   // обновление данных о лайках на основе полученных данных с сервера
-  _updateLikes(data) {
+  updateLikes(data) {
     this._likes = data.likes;
     this._updateLikesCount();
   }

@@ -60,10 +60,10 @@ function getCard(
     try {
       if (card.isLikedByUser()) {
         const data = await api.deleteLike(cardId);
-        card._updateLikes(data);
+        card.updateLikes(data);
       } else {
         const data = await api.addLike(cardId);
-        card._updateLikes(data);
+        card.updateLikes(data);
       }
     } catch (error) {
       console.error(error);
@@ -73,7 +73,7 @@ function getCard(
   const handleRemoveLikeCard = async (cardId, card) => {
     try {
       const data = await api.deleteLike(cardId);
-      card._updateLikes(data);
+      card.updateLikes(data);
     } catch (error) {
       console.error(error);
     }
