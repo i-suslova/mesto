@@ -54,7 +54,7 @@ export default class Card {
 
     this._setEventListeners();
     this._handleButtonDelete();
-    this.updateLikesCount();
+    this._updateLikesCount();
 
     return this._element;
   }
@@ -69,7 +69,6 @@ export default class Card {
     this._buttonDelete.addEventListener("click", () => {
       this._handleDeleteCard(this._cardId, this);
     });
-
     // слушатель лайка
     this._buttonLike.addEventListener("click", () => {
       if (this._buttonLike.classList.contains("element__button-like_activ")) {
