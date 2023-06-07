@@ -4,22 +4,29 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Mesto</title>
-    <link rel="stylesheet" href="./pages/index.css" />
   </head>
+
   <body class="body">
     <div class="page">
       <header class="header">
-        <img src="./images/logo.svg" alt="логотип сайта место" class="header__logo" />
+        <img src='<%=require("./images/logo.svg")%>' alt="логотип сайта место" class="header__logo" />
       </header>
 
       <main class="content">
         <div class="profile">
           <div class="profile__list">
-            <img class="profile__avatar" src="./images/ЖакИвКусто.png" alt="портрет Жак-Ив Кусто" />
+            <img class="profile__avatar" src='<%=require("./images/загрузкааватара.png")%>' alt="аватар пользователя" />
+            <button
+               type="button"
+               class="profile__avatar-button"
+               aria-label="редактировать "
+              ></button>
             <div class="profile__info">
-              <h1 class="profile__title">Жак-Ив Кусто</h1>
-              <p class="profile__subtitle">Исследователь океана</p>
+              <h1 class="profile__title"></h1>
+              <p class="profile__subtitle"></p>
+
               <button
                 type="button"
                 class="profile__button-edit hover"
@@ -104,13 +111,13 @@
             <span class="popup__error input-picture-error"></span>
             <input
               type="url"
-              name="url"
+              name="link"
               class="popup__input"
               id="input-link"
               placeholder="Ссылка на картинку"
               required
             />
-            <span class="popup__error input-link-error"></span>>
+            <span class="popup__error input-link-error"></span>
 
             <button type="submit" class="popup__button" disabled>Создать</button>
           </form>
@@ -125,12 +132,52 @@
             class="popup__button-close popup__button-close_image hover"
             aria-label="закрыть"
           ></button>
-          <img
-            src="./images/Эльбрус.png"
-            alt="на дальнем плане Эльбрус"
-            class="popup__image-photo"
-          />
+          <img class="popup__image-photo"/>
           <p class="popup__image-text"></p>
+        </div>
+      </div>
+
+      <!--pop-up-с подтверждением удаления карточки-->
+      <div class="popup popup_picture-delete">
+        <div class="popup__container">
+          <button
+          type="button"
+          class="popup__button-close popup__button-close_picture-delete hover"
+
+          aria-label="закрыть"
+        ></button>
+        <h2 class="popup__title">Вы уверены?</h2>
+        <form class="popup__form" name="form-picture-delete">
+          <button type="submit" class="popup__button">Да</button>
+
+        </form>
+        </div>
+
+      </div>
+
+      <!--pop-up-с редактированием фотографии аватарки-->
+      <div class="popup popup_avatar">
+        <div class="popup__container">
+          <button
+            type="button"
+            class="popup__button-close popup__button-close_avatar hover"
+            aria-label="закрыть"
+          ></button>
+          <h2 class="popup__title">Обновить аватар</h2>
+
+          <form class="popup__form popup__form-avatar" method="post"  name="form-avatar">
+            <input
+              type="url"
+              name="avatar"
+              class="popup__input"
+              id="avatar"
+              placeholder="Ссылка на картинку"
+              required
+            />
+            <span class="popup__error avatar-error"></span>
+
+            <button type="submit" class="popup__button" disabled>Сохранить</button>
+          </form>
         </div>
       </div>
 
@@ -140,10 +187,16 @@
           <img src="#" alt="" class="element__photo" />
           <button type="button" class="element__button-delete hover" aria-label="удалить"></button>
           <h2 class="element__title"></h2>
-          <button type="button" class="element__button-like" aria-label="нравится"></button>
+          <div class="element__likes">
+             <button type="button" class="element__button-like" aria-label="нравится"></button>
+             <span class="element__number-like"></span>
+            </div>
         </article>
       </template>
     </div>
-    <script type="module" src="./scripts/index.js"></script>
   </body>
 </html>
+
+
+
+
